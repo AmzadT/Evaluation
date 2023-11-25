@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Masai Doctor Records</title>
+    <style>
+   
+   body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      form {
+        /* display: inline-block; */
+        /* text-align: left; */
+        margin-top: 20px;
+      }
+
+      table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: rgb(89, 89, 233);
+      }
+
+      select,
+      input[type="number"],
+      input[type="text"],
+      input[type="email"],
+      input[type="submit"] {
+        width: 50%;
+        padding: 8px;
+        margin: 5px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      #filter{
+        width: 15%;
+      }
+
+      input[type="submit"] {
+        /* background-color: #f44336; */
+        background-color: rgb(105, 105, 235);
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #d32f2f;
+      }
+
+      button {
+        background-color: #ee392c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+
+      button:hover {
+        background-color: #d42727;
+      }
+
+      select {
+        width: 50%;
+        padding: 8px;
+        margin: 5px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+
+     
+    </style>
+
+  </head>
+  <body>
+
+
+    
+       <!-- Use this form for data input  -->
+    <form>
+      <input placeholder="Name" type="text" id="name" />
+      <input placeholder="Doctor ID" type="text" id="doctor_id" />
+      <select id="specialization">
+        <option value="">Select Specialization</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Gynecologist">Gynecologist</option>
+      </select>
+      <input placeholder="Experience" type="number" id="experience" />
+      <input placeholder="Email" type="email" id="email" />
+      <input placeholder="Mobile No." type="number" id="mobile" />
+      <input id="sb" type="submit" value="Submit" />
+    </form>
+    
+
+   
+      <!-- Use this Select tag for filter part  -->
+    <select id="filter">
+      <option value="">Select Specialization</option>
+      <option value="Dermatologist">Dermatologist</option>
+      <option value="Dentist">Dentist</option>
+      <option value="Gynecologist">Gynecologist</option>
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Doctor ID</th>
+          <th>Specialization</th>
+          <th>Experience in Years</th>
+          <th>Email</th>
+          <th>Mobile No</th>
+          <th>Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Append Rows here using JS & DOM  -->
+      </tbody>
+    </table>
+    
+
+
+  </body>
+
+
+  
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  var form = document.querySelector("form");
+  var tableBody = document.querySelector("table tbody");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById("name").value;
+    var doctorID = document.getElementById("doctor_id").value;
+    var specialization = document.getElementById("specialization").value;
+    var experience = parseFloat(document.getElementById("experience").value);
+    var email = document.getElementById("email").value;
+    var mobile = document.getElementById("mobile").value;
+    var role = getDoctorRole(experience);
+
+    if (name && doctorID && specialization && experience && email && mobile) 
+    {
+      appendDoctorToTable(name, doctorID, specialization, experience, email, mobile, role);
+      form.reset();
+    } 
+    else 
+    {
+      alert("Please fill in all fields.");
+    }
+  });
+
+  function getDoctorRole(experience) {
+    if (experience > 5) 
+    {
+      return "Senior";
+    } 
+    else if (experience >= 2 && experience <= 5) 
+    {
+      return "Junior";
+    } 
+    else 
+    {
+      return "Trainee";
+    }
+  }
+
+  function appendDoctorToTable(name, doctorID, specialization, experience, email, mobile, role) {
+    var newRow = document.createElement("tr");
+    newRow.innerHTML = `
+      <td>${name}</td>
+      <td>${doctorID}</td>
+      <td>${specialization}</td>
+      <td>${experience}</td>
+      <td>${email}</td>
+      <td>${mobile}</td>
+      <td>${role}</td>
+      <td><button onclick="deleteDoctor(this)">Delete</button></td>
+    `;
+
+    tableBody.appendChild(newRow);
+  }
+});
+
+function deleteDoctor(button) 
+{
+  var row = button.parentElement.parentElement;
+  row.remove();
+}
+
+  
+</script>
+</html>
